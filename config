@@ -1,0 +1,237 @@
+servers = (
+  {
+    address = "irc.yourserver.com";
+    chatnet = "YourNet";
+    port = "6697";
+    autoconnect = "yes";
+    use_tls = "yes";
+    tls_verify = "no";
+  }
+);
+
+chatnets = {
+  YourNet = {
+    type = "IRC";
+    nick = "YourNick";
+    username = "youruser";
+    autosendcmd = "/msg nickserv identify YourNSPassword";
+  };
+};
+
+channels = (
+  { name = "#channel1"; chatnet = "YourNet"; autojoin = "Yes"; },
+  { name = "#channel2"; chatnet = "YourNet"; autojoin = "Yes"; }
+);
+
+aliases = {
+  ATAG = "WINDOW SERVER";
+  ADDALLCHANS = "SCRIPT EXEC foreach my \\$channel (Irssi::channels()) { Irssi::command(\"CHANNEL ADD -auto \\$channel->{visible_name} \\$channel->{server}->{tag} \\$channel->{key}\")\\;}";
+  B = "BAN";
+  BACK = "AWAY";
+  BANS = "BAN";
+  BYE = "QUIT";
+  C = "CLEAR";
+  CALC = "EXEC - if command -v bc >/dev/null 2>&1\\; then printf '%s=' '$*'\\; echo '$*' | bc -l\\; else echo bc was not found\\; fi";
+  CHAT = "DCC CHAT";
+  CS = "QUOTE CS";
+  DATE = "TIME";
+  DEHIGHLIGHT = "DEHILIGHT";
+  DESCRIBE = "ACTION";
+  DHL = "DEHILIGHT";
+  EXEMPTLIST = "MODE $C +e";
+  EXIT = "QUIT";
+  GOTO = "SCROLLBACK GOTO";
+  HIGHLIGHT = "HILIGHT";
+  HL = "HILIGHT";
+  HOST = "USERHOST";
+  INVITELIST = "MODE $C +I";
+  J = "JOIN";
+  K = "KICK";
+  KB = "KICKBAN";
+  KN = "KNOCKOUT";
+  LAST = "LASTLOG";
+  LEAVE = "PART";
+  M = "MSG";
+  MS = "QUOTE MS";
+  MUB = "UNBAN *";
+  N = "NAMES";
+  NMSG = "^MSG";
+  NS = "QUOTE NS";
+  OS = "QUOTE OS";
+  P = "PART";
+  Q = "QUERY";
+  RESET = "SET -default";
+  RUN = "SCRIPT LOAD";
+  SAY = "MSG *";
+  SB = "SCROLLBACK";
+  SBAR = "STATUSBAR";
+  SHELP = "QUOTE HELP";
+  SIGNOFF = "QUIT";
+  SV = "MSG * Irssi $J ($V)/Krystirssi - https://irssi.org";
+  T = "TOPIC";
+  UB = "UNBAN";
+  UMODE = "MODE $N";
+  UNSET = "SET -clear";
+  W = "WHO";
+  WC = "WINDOW CLOSE";
+  WG = "WINDOW GOTO";
+  WJOIN = "JOIN -window";
+  WI = "WHOIS";
+  WII = "WHOIS $0 $0";
+  WL = "WINDOW LIST";
+  WN = "WINDOW NEW HIDDEN";
+  WQUERY = "QUERY -window";
+  WW = "WHOWAS";
+};
+
+statusbar = {
+  items = {
+    barstart = "{sbstart}";
+    barend = "{sbend}";
+    topicbarstart = "{topicsbstart}";
+    topicbarend = "{topicsbend}";
+    stat_start_top = "%C┌%c─%K-%N";
+    stat_start_middle = "%C│  ";
+    stat_start_bottom = "%C└%c─%K-%N%c";
+    time = "time %9$Z";
+    user = "%c$[1]cumode%N$N %c[%N+$usermode%n%c] ";
+    window = "%c(%n{sbmode $itemname: (%W$M%n)}%c)%n ";
+    away = "{sbaway $A}";
+    channel = "%c%n$itemname %c[%N+$M%n%c]%n";
+    winref = "%c[%Nwin%c/%N%9$winref%N%c]";
+    window_empty = "{sb %wWindow%K:%W $winref {sbservertag %w$tag}}";
+    prompt = "%C└%c─%K-%N%c[%NKrystirssi%c]%n ";
+    prompt_empty = "%K<%W$winname%n%K>%n ";
+    topic = "%K[%Ct:%Ki%N$C%K]%N $topic";
+    topic_empty = " %W%n irssi v$J - K-irrsi v0.02a";
+    server_host = "%C└%c─%K-%N%c[%N$tag%c]%N ";
+    stat_pre_end_top = " %K-%N%c─%C┐%M";
+    stat_pre_end_bottom = " %K-%N%c─%C┘%N";
+    stat_pre_end_middle = "%C│%N";
+    stat_end_top = "%C┌%K---%C┐";
+    stat_end_bottom = "%C└%K---%C┘";
+    stat_end_middle = "%C│%n %M♥%N %C│%n";
+    lag = "%Nlag%c/%N%9$0-%N ";
+    act = "%c(%Nact%n%9$0-%N%c)%N";
+    more = "-- MOAR! :D -- ";
+  };
+
+  default = {
+
+    window = { disabled = "yes"; };
+    window_inact = {
+
+      type = "window";
+      placement = "bottom";
+      position = "1";
+      visible = "inactive";
+
+      items = {
+        barstart = { priority = "100"; };
+        window = { };
+        window_empty = { };
+        more = { priority = "-1"; alignment = "right"; };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
+
+    prompt = {
+
+      type = "root";
+      placement = "bottom";
+      position = "100";
+      visible = "always";
+
+      items = {
+        server_host = { priority = "100"; };
+        input = { priority = "10"; };
+        stat_pre_end_bottom = { alignment = "right"; };
+        stat_end_bottom = { alignment = "right"; };
+      };
+    };
+
+    topic = {
+
+      type = "root";
+      placement = "top";
+      position = "1";
+      visible = "always";
+
+      items = {
+        topicbarstart = { priority = "100"; };
+        topic = { };
+        topic_empty = { };
+        topicbarend = { priority = "100"; alignment = "right"; };
+
+      };
+    };
+    #bottom bar
+    info1 = {
+      items = {
+        stat_start_middle = { };
+        time = { };
+        barstart = { };
+        awl_0 = { };
+        barend = { };
+        lag = { priority = "100"; alignment = "right"; };
+        more = { priority = "100"; alignment = "right"; };
+        stat_pre_end_middle = { priority = "100"; alignment = "right"; };
+        stat_end_middle = { priority = "100"; alignment = "right"; };
+      };
+      position = "1";
+      placement = "bottom";
+    };
+    #top bar
+    window2 = {
+      items = {
+        stat_start_top = { };
+        user = { };
+        channel = { };
+        usercount = { };
+        winref = { };
+        typing_notice = { };
+        awaylcnt = { };
+        away = { };
+        #act = { };
+        stat_pre_end_top = { priority = "100"; alignment = "right"; };
+        stat_end_top = { priority = "100"; alignment = "right"; };
+      };
+      position = "0";
+    };
+  };
+};
+settings = {
+  "irc/core" = {
+    lag_check_time = "10s";
+    ctcp_version_reply = "irssi v$J - Krystirrsi v0.02a - (FreeBSD/$sysarch)";
+    usermode = "+iwx";
+    cmds_max_at_once = "0";
+    cmd_queue_speed = "0ms";
+    ban_type = "host";
+  };
+  "perl/core/scripts" = {
+    usercount_show_halfops = "yes";
+    ho_lusercount_format = "%c$c%K/%c$D %K(%c$i%K:%c$d%K)";
+    usercount_show_ircops = "yes";
+    awl_hide_data = "2";
+    awl_shared_sbar = "OFF";
+    awl_viewer = "no";
+    awl_placement = "top"; # in case you don't modify adv_windowlist
+    awl_viewer_launch = "no";
+  };
+  "fe-text" = {
+    actlist_sort = "refnum";
+    lag_min_show = "1";
+    scrollback_lines = "5000";
+  };
+  "fe-common/core" = {
+    theme = "krysti";
+    use_status_window = "no";
+    use_msgs_window = "no";
+    autocreate_query_level = "DCCMSGS MSGS";
+    completion_char = ",";
+    term_charset = "utf-8";
+    autolog = "no";
+    autolog_path = "~/irclogs/%Y/$tag/$0.%m-%d.log";
+  };
+};
